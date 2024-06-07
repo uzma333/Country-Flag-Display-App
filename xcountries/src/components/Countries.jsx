@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import styles from "./countrycard.module.css"
 import axios from "axios";
-const CountryCard=()=>{
+const CountryCard=({name,flagImage,flagAltImage})=>{
     return (
         <div className={styles.countryCard}>
-          <img src="Flag of india.png"alt="flagname"/>
-          <h2>india</h2>
+          <img src={flagImage}alt={flagAltImage}/>
+          <h2>{name}</h2>
         </div>
     )
 }
@@ -21,16 +21,17 @@ const CountryCard=()=>{
 
 function Countries(){
      const apiEndpoint="https://restcountries.com/v3.1/all";
-    const tempArr=[1,2,3,4,5,6,7,8,9];
+    // const tempArr=[1,2,3,4,5,6,7,8,9];
 // console.log(apiEndpoint)
-// const[countries,setCountries]=useState([]);
+ const[countries,setCountries]=useState([]);
 
 async function fetchData(){
     try{
-        const data=await axios.get(apiEndpoint);
-        // const data=await res.json();
+        const res=await fetch(apiEndpoint);
+         const data= res.json();
        
     console.log("data:",data);
+    setCountries(data);
     return data;
 
     }catch(err){
@@ -58,8 +59,8 @@ useEffect(()=>{
         }}>
             
         
-      {tempArr.map((value)=>(<CountryCard key={value}/>))}
-        {/* {countries.map((country)=>(<CountryCard name={country.name.common} flagImage={country.flags.png} flagaltimage={country.flags.alt}/>))} */}
+      
+        {countries.map((country)=>(<CountryCard name={country.name.common} flagImage={country.flags.png} flagaltimage={country.flags.alt}/>))}
 </div>
 
 
